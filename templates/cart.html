@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <title>CART SESSION </title>
+
+</head>
+
+<body>
+
+    <h2>> cart session </h2>
+    {% for carts in cart %}
+       <p>{{ carts.price }}</p>
+       <p>{{ carts.quantity }}</p>
+    {% endfor %}
+
+    <div class="total">
+    <p><strong>Total:</strong>$ {{ total }}</p>
+    </div>
+
+
+   {% with messages = get_flashed_messages() %}
+     {% if messages %}
+      {% for message in messages %} <p>{{ message }}</p>
+      {% endfor %}
+     {% endif %}
+   {% endwith %} 
+
+</body>
+</html>
+

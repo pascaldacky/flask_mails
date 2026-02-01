@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="utf-8">
+    <meta charset="viewport" content="width=device-width,initial-scale=1.0">
+   <title>Home Page</title>
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css">
+   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<style>
+ @media (min-width: 500px){
+   body{
+      font-family: Arial, sns-serif;
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: cover;
+      background-image: url("https://images.pexels.com/photos/1462630/pexels-photo-1462630.jpeg");
+  }
+
+.sidebar{
+ height:100%;
+ width:0;
+ position:fixed;
+ top:0;
+ left:0;
+ background-color: #999;
+ overflow-x:hidden; 
+ transition: 0.3s;
+ padding-top:60px;
+ z-index: 1000;
+}
+.sidebar a{
+  display:block;
+  padding: 12px 24px;
+  text-decoration:none;
+  color:white;
+  font-size: 18px;
+  transition:0.2s;
+ }
+
+.sidebar a:hover{
+ background-color: #575757;
+}
+
+.sidebar .closebtn{
+ position:absolute;
+ top:15px;
+ right:20px;
+ font-size:30px;
+}
+
+.openbtn{
+  font-size:20px;
+  cursor:pointer;
+  background-color: #111;
+  color:white;
+  padding: 10px 15px;
+  border: none;
+}
+
+.openbtn:hover{
+  background-color:#444;
+}
+
+  </style>
+</head>
+<body>
+       {% with messages = get_flashed_messages(with_categories = true) %}
+         {% if messages %}
+         {% for category, message in messages %}
+
+         <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">{{ message }}<br>welcome again!
+         <button type="button" class="btn-close" data-bs-dismiss="alert"></button></div>
+
+
+         {% endfor %}
+         {% endif %}
+         {% endwith %}
+
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <div class="container-fluid">
+      <a href="#" class="navbar-brand"> DEFAULTY</a>
+      <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#modal">Open</button>
+      <div class="modal fade" id="modal">
+       <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content bg-info">
+          
+           <div class="modal-header">
+            <a href="{{ url_for('register') }}" class="btn btn-success">Register</a>
+            <button class="btn-close bg-light" data-bs-dismiss="modal"></button>
+           </div>
+
+           <div class="modal-body">
+            <a href="{{ url_for('login') }}" class="btn btn-success">Login</a>
+           </div>
+
+          <div class="modal-footer">
+           <button class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+          </div>
+
+       </div>
+      </div>
+    </div>
+      <ul class="navbar-nav">
+     {% if 'username' in session %}
+       
+         <li class="nav-item">
+           <a href="{{ url_for('products') }}" class="nav-link">Products</a>
+         </li>
+
+         <li class="nav-item">
+            <a href="{{ url_for('view_cart') }}" class="nav-link">View your Carts</a>
+         </li>
+       </ul>
+      
+     {% else %}
+             
+              <button class="navbar-toggler me-2 " type="button"  data-bs-toggle="collapse" data-bs-target="#navbarMenu" aria-expanded="false" aria-controls="navbarMenu" aria-label="Toggle Navigation">
+                <span class="navbar-toggler-icon"></span>
+               </button>
+             
+               <div class="collapse navbar-collapse " id="navbarMenu">
+                <ul class="navbar-nav">
+ 
+                 <li class="nav-item">
+                 <a href="{{ url_for('register') }}" class="nav-link">Register -></a>
+                 </li>
+ 
+                 <li class="nav-item">
+                 <a href="{{ url_for('login') }}" class="nav-link">Login</a>
+                 </li>
+                 
+                </ul>
+               </div>
+                   
+    {% endif %}
+    </div>
+</nav>
+  <marquee style="font-size:40px;background-color:green;color:orange;"> Hellow user! this is default shopping Websites! Register to Buy ->></marquee>
+ <div id="mysidebar" class="sidebar">
+ <a href="#" class="closebtn" onclick="closeSidebar()">close</a>
+ <a href="#">Home</a>
+ <a href="#">About</a>
+ <a href="#">Contact</a>
+ <a href="#">Service</a>
+</div>
+
+<div id="main">
+  <button id="closebtn" class="openbtn" onclick="openSidebar()">&&open sidebar</button>
+
+</div>
+<script>
+   function openSidebar(){
+    document.getElementById("mysidebar").style.width = "250px";
+
+    document.getElementById("main").style.marginLeft = "250px";
+    document.getElementById("closebtn").style.display= "none";
+}
+
+function closeSidebar() {
+
+document.getElementById("mysidebar").style.width = "0";
+document.getElementById("main").style.marginLeft = "0";
+document.getElementById("closebtn").style.display = "flex";
+}
+</script>
+
+</body>
+</html>
+
+
+
+
+  

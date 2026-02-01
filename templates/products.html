@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="utf-8">
+   <meta name="viewport" content="width=device-width,initial-scale=1.0">
+   <title>Flask</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>  
+  
+   <style>
+   body{
+      margin: 0;
+      padding: 0;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: cover;
+      background-color: orange;
+  }
+ .container{
+   position:relative;
+   left:200px;
+ }
+
+ @media(max-width:500px;){
+   .container{
+     margin:0;
+     padding:0;
+      display:block;
+      width:0px;
+      left:0px;
+      right:200px;
+      position:relative;
+      align-items:center;
+      text-align:between;
+
+
+ }
+ .navbar{
+   display:block;
+ }
+.marquee{
+  display:block;
+}
+}
+
+ 
+  
+
+  </style>
+
+</head>
+   <marquee style="font-size:40px;background-color:green;color:orange;"> Hellow {{ session.get('username') }}! this is products page! Add to Cart to Buy It -->></marquee>
+
+<body>
+           
+          
+         {% with messages = get_flashed_messages(with_categories = true) %}
+         {% if messages %}
+         {% for category, message in messages %}
+
+         <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">{{ message }}<br>welcome {{ session.get('username') }}
+         <button type="button" class="btn-close" data-bs-dismiss="alert"></button></div>
+
+
+         {% endfor %}
+         {% endif %}
+         {% endwith %}
+
+
+          
+    
+         <h2 class="card-text text-center" style="color:#fff;font-size:35px;"> Sampled Products</h2>          
+           {% for product in products %}
+
+          <div class="container-sm  text-center py-2" style="width:320px;padding:20px;left:50px;align-items:center;position:relative; border:#000;display:inline-flex;">
+            <div class="card text-center gy-2" style="width:320px;position:relative;display:inline-flex;align-items:center;text-align:between;">
+               <h2 class="card-title">{{ product.name }}</h2>
+               <img src="{{ url_for('static', filename = product.image_url.split('static/')[-1]) }}"  class="card-img-bottom" alt="{{ product.name }}">
+               <div class="card-body">
+               <h2 class="card-text">{{ product.price }}</h2>
+               <a href="{{ url_for('add_to_cart', pid = product.id) }}" class="btn btn-warning">Add to carts</a>
+               </div>
+
+            </div>
+          </div>
+                   
+
+
+          {% endfor %}
+           
+
+
+
+
+</body>
+</html>
+           
+
+       

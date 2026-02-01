@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang= "en">
+<head>
+    <title> Mails </title>
+<head>
+<body>
+     <h2> Mails</h2>
+
+     {% if email_html %}
+     {% for mail in email_html %}
+        <p>{{ mail.products['name'] }}</p>
+        <p>{{ mail.products['price'] }}</p>
+        <p>{{ mail.products['image'] }}</p>
+
+        <a href="{{ url_for('checkout') }}"> Checkout</a>
+     {% endfor %}
+     {% endif %}
+
+</body>
+</html>
+
+
+

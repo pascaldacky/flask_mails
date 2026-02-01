@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <title> LOgin Forms</title>
+</head>
+<body>
+   <h2> LOgin Forms</h2>
+   
+      {% with messages = get_flashed_messages(with categories = true) %}
+      {% if messages %}
+      {% for category, message in messages %}
+      <p> <ul style="background-color: green; border-radius: 5px;"</ul>{{ message }}</p>
+      
+      {% endfor %}
+      {% endif %}
+      <div class="login">
+      <form method="POST" action="{{ url_for('login') }}">
+         <label>Name:</label><br><br>
+         <input type="text" name="name" placeholder="Enter A Name" required><br><br>
+        
+         <label>password:</label><br><br>
+         <input type="password" name="password" placeholder="Enter A password" required><br><br>
+         <button type="submit" class="login-button">Login Here</button><br><br>
+      </form>
+         <p><a href="{{ url_for('register') }}" class="btn">Have No Account? Register</a></p><br><br>
+         <p><a href="{{ url_for('logout') }}" class="logout"> Logout</a></p> 
+      </div>
+    
+      
+</body>
+</html>
+
