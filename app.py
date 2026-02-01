@@ -24,13 +24,9 @@ mail = Mail(app)
 def get_db_connection():
    try:
 
-      conn = psycopg2.connect(
-         user = 'postgres',
-         dbname = 'pascals_db',
-         host = 'localhost',
-         password = 'pascaldacky'
-   )
-      return conn
+         app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL')
+         app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+      
    except OperationalError as e:
       print(f"database connection failed:", e)
       return None
