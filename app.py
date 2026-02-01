@@ -5,6 +5,7 @@ from flask_mail import Message, Mail
 import json
 import os
 from psycopg2.extras import RealDictCursor
+from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
 app.secret_key ="superSecretKey"
@@ -20,6 +21,7 @@ app.config["MAIL_PASSWORD"] = "rxdghylubawyhpvq"
 app.config["MAIL_DEFAULT_SENDER"] = "pchahama1103@gmail.com"
 
 mail = Mail(app)
+db = SQLAlchemy(app)
 
 def get_db_connection():
    try:
