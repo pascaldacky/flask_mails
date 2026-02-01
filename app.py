@@ -6,6 +6,8 @@ import json
 import os
 from psycopg2.extras import RealDictCursor
 from flask_sqlalchemy import SQLAlchemy
+from app import db
+db.create_all()
 
 app = Flask(__name__)
 app.secret_key ="superSecretKey"
