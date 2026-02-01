@@ -6,7 +6,6 @@ import json
 import os
 from psycopg2.extras import RealDictCursor
 from flask_sqlalchemy import SQLAlchemy
-import db
 db.create_all()
 
 app = Flask(__name__)
@@ -165,7 +164,6 @@ def edit_cart(ped):
 def delete_cart(cart_id):
    if request.method == 'POST':
       user_id = session.get('user_id', 1)
-      print("USER ID:", user_id)
       conn = get_db_connection()
       cursor = conn.cursor()
       cursor.execute("DELETE FROM carts WHERE user_id=%s AND product_id=%s", (user_id, cart_id,))
@@ -232,5 +230,3 @@ def logout():
    flash('logout success', 'success')
    return redirect('/')
 
-if __name__ == "__main__":
-   app.run(debug=True)
