@@ -6,10 +6,10 @@ import json
 import os
 from psycopg2.extras import RealDictCursor
 from flask_sqlalchemy import SQLAlchemy
-db = SQLAlchemy(app)
 db.create_all()
 
 app = Flask(__name__)
+db = SQLAlchemy(app)
 app.secret_key ="superSecretKey"
 cart_file = 'cart.json'
 if not os.path.exists(cart_file):
