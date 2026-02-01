@@ -6,7 +6,7 @@ import json
 import os
 from psycopg2.extras import RealDictCursor
 from flask_sqlalchemy import SQLAlchemy
-from app import db
+import db
 db.create_all()
 
 app = Flask(__name__)
