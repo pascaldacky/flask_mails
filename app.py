@@ -23,12 +23,11 @@ app.config["MAIL_PASSWORD"] = "rxdghylubawyhpvq"
 app.config["MAIL_DEFAULT_SENDER"] = "pchahama1103@gmail.com"
 app.config['DATABASE_URI'] = os.environ.get("DATABASE_URL") 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-mail = Mail(app)
-db = SQLAlchemy(app)
 
 def get_db_connection():
    try:
-
+         mail = Mail(app)
+         db = SQLAlchemy(app)
          app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL')
          app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
       
