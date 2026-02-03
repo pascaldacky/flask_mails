@@ -8,8 +8,10 @@ from psycopg2.extras import RealDictCursor
 from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
-db = SQLAlchemy(app)
-db.create_all()
+mail = Mail(app)
+with app.app_context():
+   db = SQLAlchemy(app)
+   db.create_all()
 app.secret_key ="superSecretKey"
 cart_file = 'cart.json'
 if not os.path.exists(cart_file):
@@ -25,7 +27,11 @@ app.config['DATABASE_URI'] = os.environ.get("DATABASE_URL")
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 def get_db_connection():
+   with app.app_context():
+      db = SQLAlchemy(app)
+      db.create_all()
    try:
+         
          mail = Mail(app)
          db = SQLAlchemy(app)
          app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL')
