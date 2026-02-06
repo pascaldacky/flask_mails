@@ -9,14 +9,16 @@ from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
 mail = Mail(app)
-with app.app_context():
-   db = SQLAlchemy(app)
-   db.create_all()
-   app.secret_key ="superSecretKey"
-   cart_file = 'cart.json'
-if not os.path.exists(cart_file):
-   os.makedirs(cart_file, exist_ok = True)
 
+def get_db_connection():
+   with app.app_context():
+      db = SQLAlchemy(app)
+      db.create_all()
+      app.secret_key ="superSecretKey"
+      cart_file = 'cart.json'
+   if not os.path.exists(cart_file):
+      os.makedirs(cart_file, exist_ok = True)
+DATABASE_URL = "postgresql://pascaldacky_user:xgk70dACXBBiCiam2VoPG22gL7Qznt1d@dpg-d5veo9sr85hc73e651f0-a/pascaldacky"
 app.config["MAIL_SERVER"] = "smtp.gmail.com"
 app.config["MAIL_USE_TLS"] = "True"
 app.config["MAIL_PORT"] = 587
@@ -25,16 +27,12 @@ app.config["MAIL_PASSWORD"] = "rxdghylubawyhpvq"
 app.config["MAIL_DEFAULT_SENDER"] = "pchahama1103@gmail.com"
 app.config['DATABASE_URI'] = os.environ.get("DATABASE_URL") 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL')
+if DATABASE_URL:
+  app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL')
+else:
+   app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://postgres:pascaldacky@localhost:5432:/pascals_db"
 
-def get_db_connection():
-   try:
-         
-         app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL')
-         app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-      
-   except OperationalError as e:
-      print(f"database connection failed:", e)
-      return None
 @app.route('/')
 def index():
    return render_template('index.html')
