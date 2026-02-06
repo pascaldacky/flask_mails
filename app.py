@@ -55,7 +55,7 @@ def register():
 
       password_hash = generate_password_hash(password)
       try:
-         conn = get_db_connection()
+         g.conn = get_db_connection()
          cursor = conn.cursor()
          cursor.execute(" INSERT INTO users (username, email, password) VALUES (%s,%s,%s);", (username, email, password_hash))
          conn.commit()
@@ -64,11 +64,11 @@ def register():
          flash('Registration successfully!', 'success')
          return redirect(url_for('login'))
       except psycopg2.IntegrityError:
-         conn.rollback()
+         g.conn.rollback()
          flash('An Account Arleady Exists try Another', 'warning')
          return redirect(url_for('register'))
       except Exception as e:
-         conn.rollback()
+         g.conn.rollback()
          flash(f'Error: {e}', 'danger')
          return redirect(url_for('register')) 
    return render_template('register.html')
@@ -82,8 +82,8 @@ def login():
          flash("username or password not found", "danger")
          return redirect(url_for('register'))
 
-      conn = get_db_connection()
-      cursor = conn.cursor(cursor_factory = psycopg2.extras.RealDictCursor)
+      g.conn = get_db_connection()
+      cursor = g.conn.cursor(cursor_factory = psycopg2.extras.RealDictCursor)
       cursor.execute(" SELECT id, username, email, password  FROM  users  WHERE username = %s", (username,))
       user = cursor.fetchone()
       conn.close()
