@@ -1,4 +1,4 @@
-from flask import Flask, request, redirect, url_for, session, flash, render_template
+from flask import Flask, request, redirect, url_for, session, flash, render_template,g
 import psycopg2
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_mail import Message, Mail
@@ -11,6 +11,10 @@ app = Flask(__name__)
 mail = Mail(app)
 
 def get_db_connection():
+   if "conn" not in g:
+      g.conn = psycopg2.connect(os.getenv("DATABASE_URL"))
+   return g
+   
    with app.app_context():
       db = SQLAlchemy(app)
       db.create_all()
