@@ -98,6 +98,9 @@ def login():
       conn.close()
       if user and check_password_hash(user["password"], password):
          session['user_id'] = user["id"]
+         db.session.add('user_id')
+         db.session.add('username')
+         db.session.add('email')
          session['username'] = user["username"]
          session['email'] = user['email']
          flash("you are truly belonging from this sessions", "success")
