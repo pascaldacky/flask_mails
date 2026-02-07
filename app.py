@@ -6,7 +6,7 @@ import json
 import os
 from psycopg2.extras import RealDictCursor
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy.exc import IntegrityErrror
+from sqlalchemy.exc import IntegrityError
 
 app = Flask(__name__)
 mail = Mail(app)
