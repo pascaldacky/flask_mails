@@ -57,6 +57,7 @@ def register():
       password_hash = generate_password_hash(password)
       try:
          g.conn = get_db_connection()
+         db = SQLAlchemy(app)
          cursor = conn.cursor()
          db.session.add(username)
          db.session.add(email)
@@ -91,16 +92,15 @@ def login():
          return redirect(url_for('register'))
 
       g.conn = get_db_connection()
+      db = SQLAlchemy(app)
       cursor = g.conn.cursor(cursor_factory = psycopg2.extras.RealDictCursor)
       cursor.execute(" SELECT id, username, email, password  FROM  users  WHERE username = %s", (username,))
       user = cursor.fetchone()
+      db.session.add(user)
       conn.close()
       conn.close()
       if user and check_password_hash(user["password"], password):
          session['user_id'] = user["id"]
-         db.session.add('user_id')
-         db.session.add('username')
-         db.session.add('email')
          session['username'] = user["username"]
          session['email'] = user['email']
          flash("you are truly belonging from this sessions", "success")
