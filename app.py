@@ -57,7 +57,6 @@ def register():
       password_hash = generate_password_hash(password)
       try:
          g.conn = get_db_connection()
-         db = SQLAlchemy(app)
          cursor = conn.cursor()
          db.session.add(username)
          db.session.add(email)
@@ -92,7 +91,6 @@ def login():
          return redirect(url_for('register'))
 
       g.conn = get_db_connection()
-      db = SQLAlchemy(app)
       cursor = g.conn.cursor(cursor_factory = psycopg2.extras.RealDictCursor)
       cursor.execute(" SELECT id, username, email, password  FROM  users  WHERE username = %s", (username,))
       user = cursor.fetchone()
