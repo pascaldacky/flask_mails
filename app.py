@@ -6,6 +6,7 @@ import json
 import os
 from psycopg2.extras import RealDictCursor
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy.exc import IntegrityErrror
 
 app = Flask(__name__)
 mail = Mail(app)
@@ -57,6 +58,10 @@ def register():
       try:
          g.conn = get_db_connection()
          cursor = conn.cursor()
+         db.session.add(username)
+         db.session.add(email)
+         db.session.add(password)
+         db.session.commit()
          cursor.execute(" INSERT INTO users (username, email, password) VALUES (%s,%s,%s);", (username, email, password_hash))
          conn.commit()
          conn.close()
@@ -65,10 +70,13 @@ def register():
          return redirect(url_for('login'))
       except psycopg2.IntegrityError:
          g.conn.rollback()
+         db.session.rollback()
          flash('An Account Arleady Exists try Another', 'warning')
          return redirect(url_for('register'))
       except Exception as e:
+         db.session.rollback()
          g.conn.rollback()
+         return f"Error: {str(e)}"
          flash(f'Error: {e}', 'danger')
          return redirect(url_for('register')) 
    return render_template('register.html')
